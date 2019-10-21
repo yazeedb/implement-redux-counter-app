@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>0</h1>
+    <h1></h1>
 
     <button class="decrement">-</button>
     <button class="increment">+</button>
@@ -81,8 +81,11 @@
       store.dispatch(actions.decrement);
     });
 
-    // Update UI when an action fires
+    // Initialize UI display
     const counterDisplay = document.querySelector('h1');
+    counterDisplay.innerHTML = parseInt(initialState.count);
+
+    // Update UI when an action fires
     store.subscribe(() => {
       const state = store.getState();
 
