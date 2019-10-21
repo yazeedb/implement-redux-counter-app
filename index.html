@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Redux Counter App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>0</h1>
+
+    <button class="decrement">-</button>
+    <button class="increment">+</button>
+  </body>
+
+  <script>
+    // simplified createStore function
+    const createStore = (reducer) => {
+      const listeners = [];
+      let currentState = reducer(undefined, {});
+
+      return {
+        getState: () => currentState,
+        dispatch: (action) => {
+          currentState = reducer(currentState, action);
+
+          listeners.forEach((listener) => {
+            listener();
+          });
+        },
+        subscribe: (newListener) => {
+          listeners.push(newListener);
+
+          const unsubscribe = () => {
+            listeners = listeners.filter((l) => l === newListener);
+          };
+
+          return unsubscribe;
+        }
+      };
+    };
+
+    // Redux architecture pieces
+    const initialState = { count: 0 };
+
+    const actions = {
+      increment: { type: 'INCREMENT' },
+      decrement: { type: 'DECREMENT' }
+    };
+
+    const countReducer = (state = initialState, action) => {
+      switch (action.type) {
+        case actions.increment.type:
+          return {
+            count: state.count + 1
+          };
+
+        case actions.decrement.type:
+          return {
+            count: state.count - 1
+          };
+
+        default:
+          return state;
+      }
+    };
+
+    const store = createStore(countReducer);
+
+    // DOM elements
+    const incrementButton = document.querySelector('.increment');
+    const decrementButton = document.querySelector('.decrement');
+
+    // Wire click events to actions
+    incrementButton.addEventListener('click', () => {
+      store.dispatch(actions.increment);
+    });
+
+    decrementButton.addEventListener('click', () => {
+      store.dispatch(actions.decrement);
+    });
+
+    // Update UI when an action fires
+    const counterDisplay = document.querySelector('h1');
+    store.subscribe(() => {
+      const state = store.getState();
+
+      counterDisplay.innerHTML = parseInt(state.count);
+    });
+  </script>
+</html>

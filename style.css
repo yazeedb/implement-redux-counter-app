@@ -1,0 +1,33 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body,
+button {
+  background-color: #1f1f1f;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  font-size: 100px;
+  margin-bottom: 0;
+}
+
+button {
+  width: 50px;
+  height: 35px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.decrement {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  margin-right: -5px;
+}
+
+.increment {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
