@@ -17,7 +17,7 @@
   <script>
     // simplified createStore function
     const createStore = (reducer) => {
-      const listeners = [];
+      let listeners = [];
       let currentState = reducer(undefined, {});
 
       return {
@@ -33,7 +33,7 @@
           listeners.push(newListener);
 
           const unsubscribe = () => {
-            listeners = listeners.filter((l) => l === newListener);
+            listeners = listeners.filter((l) => l !== newListener);
           };
 
           return unsubscribe;
